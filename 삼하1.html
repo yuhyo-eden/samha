@@ -1,303 +1,358 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2487.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인포그래픽: 사람, 단편적으로 보지 않기</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #073B4C;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            font-size: 1rem;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+    </style>
 </head>
-<body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="ko"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;사무엘하 1장 대화형 교육 자료&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Chosen Palette: Calm Contemplation (A custom palette with deep blues, light blues, and grays for a modern, respectful, and clear interface) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Application Structure Plan: The SPA is designed to guide the user through a narrative and analytical journey. It starts with setting the scene (character introductions), moves to the core conflict (the report and reaction), analyzes the event through three key lessons (misunderstanding, poor judgment, respecting God's image), and concludes with interactive questions for personal reflection. This thematic flow enhances understanding and engagement better than a linear report structure. --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Visualization &amp; Content Choices:<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>- Character Profiles -&gt; Goal: Inform -&gt; Method: Styled HTML cards -&gt; Justification: Provides a quick, digestible overview of the key figures involved.</p>
-<p class="p1"><span class="Apple-converted-space">        </span>- Expectation vs. Reality -&gt; Goal: Compare -&gt; Method: Chart.js Donut Chart vs. large text display -&gt; Justification: Creates a powerful visual contrast between the youth's foolish expectation and David's profound grief, immediately highlighting the core misunderstanding.</p>
-<p class="p1"><span class="Apple-converted-space">        </span>- 'Sotamdaesil' Analysis -&gt; Goal: Compare -&gt; Method: Chart.js Bar Chart -&gt; Justification: Clearly visualizes the concept of 'losing much for little' by comparing the tiny potential gain against the ultimate loss of life.</p>
-<p class="p1"><span class="Apple-converted-space">        </span>- Image of God Hierarchy -&gt; Goal: Organize -&gt; Method: Structured HTML/CSS diagram -&gt; Justification: Illustrates the theological principle of respect in a simple, hierarchical flow without using prohibited SVG/Mermaid graphics.</p>
-<p class="p1"><span class="Apple-converted-space">        </span>- Reflection Questions -&gt; Goal: Organize -&gt; Method: Interactive HTML cards -&gt; Justification: Presents the application questions from the source in a clean, engaging format that encourages user interaction.</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Noto Sans KR', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f8f9fa;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #34495e;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.chart-container {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-width: 450px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-left: auto;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-right: auto;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 320px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-height: 350px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>@media (min-width: 768px) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>.chart-container {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>height: 350px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.flow-arrow {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #3498db;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 8px 0;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.flow-arrow::after {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>content: '';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>left: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>bottom: -1px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transform: translateX(-50%);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-left: 6px solid transparent;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-right: 6px solid transparent;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-top: 8px solid #3498db;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.interactive-card {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.interactive-card:hover {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transform: translateY(-5px);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body class="antialiased"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-6xl"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;header class="text-center mb-12 md:mb-16"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1 class="text-4xl md:text-5xl font-bold text-[#2c3e50] mb-3"&gt;사무엘하 1장 대화형 탐구&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-lg text-gray-600"&gt;한 청년의 잘못된 판단이 우리에게 전하는 세 가지 깊은 교훈&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;nav class="sticky top-0 bg-[#f8f9fa]/80 backdrop-blur-sm z-10 mb-12 rounded-lg shadow-sm"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul class="flex justify-center items-center p-2 space-x-2 sm:space-x-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;a href="#section1" class="text-sm sm:text-base text-gray-700 hover:text-[#3498db] transition-colors duration-200 p-2"&gt;사건의 배경&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;a href="#section2" class="text-sm sm:text-base text-gray-700 hover:text-[#3498db] transition-colors duration-200 p-2"&gt;핵심 교훈&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;a href="#section3" class="text-sm sm:text-base text-gray-700 hover:text-[#3498db] transition-colors duration-200 p-2"&gt;적용과 성찰&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/nav&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;main class="space-y-16"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;section id="section1" class="scroll-mt-24"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-3xl font-bold text-[#2c3e50] mb-2 text-center"&gt;1. 사건의 배경: 비극의 서막&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-center text-gray-700 mb-8 max-w-3xl mx-auto"&gt;사울 왕의 시대가 끝나고 다윗의 시대가 열리는 역사적 전환점. 한 청년이 가져온 소식은 단순한 정보가 아닌, 한 시대의 종언과 새로운 시대의 시험대였습니다.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="grid grid-cols-1 md:grid-cols-3 gap-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-[#3498db] interactive-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3 class="text-xl font-semibold text-[#2c3e50] mb-2"&gt;다윗: 고뇌하는 지도자&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sm"&gt;사울 왕에게 쫓기는 도망자 신세. 그러나 개인적인 원한보다 하나님의 기름 부음 받은 자에 대한 경외심을 우선시하는 인물.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-gray-400 interactive-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3 class="text-xl font-semibold text-[#2c3e50] mb-2"&gt;사울: 몰락한 왕&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sm"&gt;블레셋과의 길보아 전투에서 패배 후, 이방인의 손에 죽는 치욕을 피하고자 스스로 목숨을 끊은 비운의 초대 왕.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-amber-500 interactive-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3 class="text-xl font-semibold text-[#2c3e50] mb-2"&gt;아말렉 청년: 야심 찬 보고자&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sm"&gt;사울의 죽음을 목격하고, 다윗에게 더 큰 포상을 얻으려는 욕심에 자신이 사울을 죽였다고 거짓 보고를 하는 인물.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;section id="section2" class="scroll-mt-24"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-3xl font-bold text-[#2c3e50] mb-2 text-center"&gt;2. 세 가지 핵심 교훈&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-center text-gray-700 mb-12 max-w-3xl mx-auto"&gt;이 짧은 사건은 우리의 삶과 신앙을 돌아보게 하는 세 가지 중요한 통찰을 담고 있습니다. 각 교훈을 통해 자신을 성찰해 봅시다.&lt;/p&gt;</p>
-<p class="p2"><span class="Apple-converted-space">                </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mb-10"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-2xl font-bold text-[#3498db] mb-4"&gt;교훈 1: 오해와 편향된 시선&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="mb-6"&gt;아말렉 청년은 다윗이 사울의 죽음을 기뻐할 것이라 오해했습니다. 그는 자신의 세속적인 기준으로 다윗의 마음을 재단했습니다. 이 시각의 차이는 얼마나 컸을까요?&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h4 class="font-semibold mb-2"&gt;청년의 기대 (잘못된 예측)&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="chart-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;canvas id="expectationChart"&gt;&lt;/canvas&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-sm mt-4 text-gray-600"&gt;청년은 다윗이 기뻐하며 자신에게 큰 상을 줄 것이라 거의 100% 확신했습니다.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-center p-8 bg-[#ecf0f1] rounded-lg"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h4 class="font-semibold mb-2"&gt;다윗의 실제 반응&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-6xl font-bold text-[#c0392b]"&gt;哀&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-2xl font-bold text-[#c0392b] mt-2"&gt;슬픔과 애통&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="mt-4 text-gray-600"&gt;다윗과 모든 무리는 옷을 찢고, 저녁까지 금식하며 진심으로 슬퍼했습니다.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mb-10"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-2xl font-bold text-[#3498db] mb-4"&gt;교훈 2: 소탐대실 (小貪大失)&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="mb-6"&gt;더 큰 상을 얻으려는 작은 욕심이 결국 모든 것을 잃게 만들었습니다. 청년이 탐한 것과 그가 잃은 것의 가치를 비교해 봅시다.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chart-container h-96"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;canvas id="sotamdaesilChart"&gt;&lt;/canvas&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-center text-sm mt-4 text-gray-600"&gt;청년의 거짓말로 얻으려던 작은 추가 이익은, 그가 이미 가졌던 모든 것과 목숨의 가치에 비할 수 없이 작았습니다.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-white p-6 md:p-8 rounded-xl shadow-lg"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-2xl font-bold text-[#3498db] mb-4"&gt;교훈 3: 하나님의 형상&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="mb-8"&gt;다윗은 원수였던 사울을 '여호와의 기름 부음 받은 자'로 존중했습니다. 이는 모든 인간이 가진 존엄성에 대한 중요한 원칙을 보여줍니다.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex flex-col items-center text-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="p-4 bg-[#2c3e50] text-white rounded-lg shadow-md"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-lg font-bold"&gt;하나님 (창조주)&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flow-arrow"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="p-4 bg-[#3498db] text-white rounded-lg shadow-md"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="font-semibold"&gt;하나님의 형상대로 지음 받은 모든 인간&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flow-arrow"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="w-full max-w-md p-4 bg-[#ecf0f1] rounded-lg text-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="font-semibold text-[#2c3e50]"&gt;존중과 사랑의 의무&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="mt-2 text-sm"&gt;타인을 비난하고 멸시하는 것은 그를 지으신 하나님을 멸시하는 것과 같습니다.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;section id="section3" class="scroll-mt-24"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-3xl font-bold text-[#2c3e50] mb-2 text-center"&gt;3. 적용과 성찰&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-center text-gray-700 mb-8 max-w-3xl mx-auto"&gt;이 교훈들을 우리의 삶에 어떻게 적용할 수 있을까요? 다음 질문들을 통해 스스로를 돌아보는 시간을 가져봅시다.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white p-6 rounded-lg border-l-4 border-[#3498db] interactive-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="font-semibold"&gt;1. 최근 나의 제한된 시선으로 타인이나 상황을 오해한 적은 없었나요?&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white p-6 rounded-lg border-l-4 border-[#3498db] interactive-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="font-semibold"&gt;2. 작은 이익을 위해 더 중요한 가치를 희생시킬 뻔한 경험이 있다면 무엇인가요?&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white p-6 rounded-lg border-l-4 border-[#3498db] interactive-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="font-semibold"&gt;3. 나와 생각이 다르거나 불편한 사람을 '하나님의 형상'으로 대하기 위해 어떤 노력을 할 수 있을까요?&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white p-6 rounded-lg border-l-4 border-[#3498db] interactive-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="font-semibold"&gt;4. 내 안에 용서하지 못하는 마음이 있다면, 이 말씀을 통해 하나님께 어떻게 기도하고 싶습니까?&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/main&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;footer class="text-center mt-16 pt-8 border-t"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-gray-500 text-sm"&gt;이 자료는 사무엘하 1장 말씀을 바탕으로 제작되었습니다.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/footer&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.querySelectorAll('a[href^="#"]').forEach(anchor =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>anchor.addEventListener('click', function (e) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>e.preventDefault();</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.querySelector(this.getAttribute('href')).scrollIntoView({</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>behavior: 'smooth'</p>
-<p class="p1"><span class="Apple-converted-space">                </span>});</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const tooltipTitleCallback = (tooltipItems) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const item = tooltipItems[0];</p>
-<p class="p1"><span class="Apple-converted-space">            </span>let label = item.chart.data.labels[item.dataIndex];</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (Array.isArray(label)) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>return label.join(' ');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>return label;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const defaultChartOptions = {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>responsive: true,</p>
-<p class="p1"><span class="Apple-converted-space">            </span>maintainAspectRatio: false,</p>
-<p class="p1"><span class="Apple-converted-space">            </span>plugins: {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>legend: {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>position: 'top',</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>labels: {</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>font: { family: "'Noto Sans KR', sans-serif", size: 12 },</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>color: '#34495e'</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                </span>},</p>
-<p class="p1"><span class="Apple-converted-space">                </span>tooltip: {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>callbacks: { title: tooltipTitleCallback },</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>bodyFont: { family: "'Noto Sans KR', sans-serif" },</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>titleFont: { family: "'Noto Sans KR', sans-serif" }</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>animation: {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>duration: 1000,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>easing: 'easeInOutQuart'</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const expectationChartCtx = document.getElementById('expectationChart').getContext('2d');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>new Chart(expectationChartCtx, {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>type: 'doughnut',</p>
-<p class="p1"><span class="Apple-converted-space">            </span>data: {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>labels: ['큰 포상에 대한 기대', '실패 가능성에 대한 고려'],</p>
-<p class="p1"><span class="Apple-converted-space">                </span>datasets: [{</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>label: '청년의 기대',</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>data: [95, 5],</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>backgroundColor: ['#3498db', '#ecf0f1'],</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>borderColor: '#f8f9fa',</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>borderWidth: 4,</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>hoverOffset: 4</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}]</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>options: { ...defaultChartOptions }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const sotamdaesilChartCtx = document.getElementById('sotamdaesilChart').getContext('2d');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>new Chart(sotamdaesilChartCtx, {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>type: 'bar',</p>
-<p class="p1"><span class="Apple-converted-space">            </span>data: {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>labels: ['탐한 것 vs 잃은 것'],</p>
-<p class="p1"><span class="Apple-converted-space">                </span>datasets: [{</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>label: '탐했던 작은 가치 (기대했던 추가 포상)',</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>data: [10],</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>backgroundColor: '#f39c12',</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>borderColor: '#e67e22',</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>borderWidth: 1,</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>barPercentage: 0.5</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}, {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>label: '잃어버린 큰 가치 (생명과 모든 것)',</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>data: [100],</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>backgroundColor: '#e74c3c',</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>borderColor: '#c0392b',</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>borderWidth: 1,</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>barPercentage: 0.5</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}]</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>options: {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>...defaultChartOptions,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>scales: {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>y: {</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>beginAtZero: true,</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>ticks: { color: '#34495e' },</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>grid: { color: '#ecf0f1' }</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>x: {</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>ticks: { color: '#34495e' },</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>grid: { display: false }</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                </span>},</p>
-<p class="p1"><span class="Apple-converted-space">                 </span>plugins: { ...defaultChartOptions.plugins, legend: { position: 'bottom' } }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+<body class="bg-slate-100 text-[#073B4C]">
+
+    <!-- Palette: Energetic & Playful -->
+    <!-- Plan: The infographic visualizes the sermon's core message: "Don't judge people by a single snapshot." It starts with the COVID story hook, presents case studies of Solomon, Daniel, and Gideon using radar charts to show their dual nature, uses a simple flowchart for the "jaywalking man" analogy, highlights the main principle, and concludes with a call-to-action flowchart. -->
+    <!-- Visualization Choices: 
+        - Hook: Typographic treatment and narrative flow (Inform, HTML/CSS).
+        - Case Studies (Solomon, Daniel, Gideon): Radar Chart (Compare, Chart.js/Canvas). This effectively shows multiple facets of one person. A "Big Number" stat for Gideon's sons is also used (Inform, HTML/CSS). Confirmed NO SVG.
+        - Jaywalking Man: Flow Chart (Organize, HTML/CSS with Tailwind) with enhanced descriptions. Confirmed NO SVG/Mermaid.
+        - Core Principle: Single Big Number (Inform, HTML/CSS). Confirmed NO SVG.
+        - Call to Action: Flow Chart (Organize, HTML/CSS with Tailwind). Confirmed NO SVG/Mermaid. -->
+    <!-- Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this output. -->
+
+    <div id="infographic-content" class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center mb-12 relative">
+            <h1 class="text-4xl md:text-6xl font-black text-[#073B4C] mb-2 text-shadow">사람, 단편적으로 보지 않기</h1>
+            <p class="text-lg md:text-xl text-[#118AB2]">한 사람의 가치는 한순간의 모습으로 결정되지 않습니다.</p>
+        </header>
+
+        <section id="hook" class="mb-16">
+            <div class="card text-center">
+                <h2 class="text-3xl font-bold text-[#FF6B6B] mb-4">"마스크는 어디다 두고 타셨어요!"</h2>
+                <p class="text-lg mb-4">코로나 시절, 마스크 착용 여부라는 단편적인 모습만으로 한 할머니가 버스에서 폭언을 들어야 했습니다.</p>
+                <p class="text-gray-600">우리는 너무 쉽게 한 가지 모습으로 사람의 전체를 판단하고 비난합니다. 하지만 정말 그것이 그 사람의 전부일까요?</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 text-xl">
+                    <div class="bg-blue-50 p-4 rounded-lg flex flex-col items-center justify-center">
+                        <span class="text-5xl mb-2">👵</span>
+                        <p class="font-bold text-[#073B4C]">마스크를 쓰지 못한 할머니</p>
+                        <p class="text-sm text-gray-500">(의도치 않은 상황)</p>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg flex flex-col items-center justify-center">
+                        <span class="text-5xl mb-2">🗣️</span>
+                        <p class="font-bold text-[#FF6B6B]">젊은 사람의 위협적인 폭언</p>
+                        <p class="text-sm text-gray-500">(단편적인 판단과 비난)</p>
+                    </div>
+                </div>
+                 <p class="text-center text-lg mt-4 text-gray-600">이러한 상황은 한 사람의 인생을 단편적인 모습으로 판단하는 위험성을 보여줍니다.</p>
+            </div>
+        </section>
+
+        <section id="case-studies" class="mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">성경 인물, 그 이면의 이야기</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="card">
+                    <h3 class="text-2xl font-bold text-[#118AB2] text-center mb-2">솔로몬의 두 얼굴</h3>
+                    <p class="text-center text-gray-600 mb-4">세상에서 가장 지혜로운 왕으로 칭송받았지만, 그의 말년은 완전히 다른 모습이었습니다.</p>
+                    <div class="chart-container">
+                        <canvas id="solomonChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-500">지혜의 대명사였던 그는 수많은 이방 여인을 아내로 맞이하고 그들의 우상을 함께 섬기며 타락했습니다. 우리는 그의 어떤 모습을 닮아야 할까요?</p>
+                </div>
+                
+                <div class="card">
+                    <h3 class="text-2xl font-bold text-[#118AB2] text-center mb-2">다니엘의 그림자</h3>
+                    <p class="text-center text-gray-600 mb-4">죽음의 위협 앞에서도 믿음을 지킨 위대한 인물. 하지만 그에게도 우리가 모르는 아픔이 있었습니다.</p>
+                    <div class="chart-container">
+                        <canvas id="danielChart"></canvas>
+                    </div>
+                     <p class="mt-4 text-sm text-gray-500">그는 바벨론의 환관, 즉 내시였습니다. 세상에 큰 영향력을 끼쳤지만, 한 개인으로서 가정의 꿈을 이루지 못했을 수 있습니다.</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-bold text-[#118AB2] text-center mb-2">기드온의 영광과 탐욕</h3>
+                    <p class="text-center text-gray-600 mb-4">300 용사로 대승을 거둔 영웅. 하지만 그의 삶은 겸손과는 거리가 멀었습니다.</p>
+                    <div class="chart-container">
+                        <canvas id="gideonChart"></canvas>
+                    </div>
+                    <div class="text-center mt-4">
+                        <span class="text-5xl font-extrabold text-[#FF6B6B]">70</span>
+                        <span class="text-xl font-bold">명의 아들</span>
+                        <p class="text-sm text-gray-500">왕처럼 살며 수많은 아내와 첩을 두었고, 아들 이름(아비멜렉)을 통해 '내 아버지는 왕'이라며 교만을 드러냈습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="analogy" class="mb-16">
+             <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">사람은 복합적인 존재입니다</h2>
+            <div class="card">
+                <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
+                    <div class="p-6 bg-red-100 rounded-lg w-full md:w-auto">
+                        <p class="text-4xl mb-2">🚶‍♂️</p>
+                        <p class="text-xl font-bold text-red-700">무단횡단을 하는 아저씨</p>
+                        <p class="text-red-500">(규칙을 어기는 모습)</p>
+                    </div>
+                    <div class="text-4xl font-bold text-gray-400 transform md:-translate-y-4">➡️</div>
+                    <div class="p-6 bg-green-100 rounded-lg w-full md:w-auto">
+                        <p class="text-4xl mb-2">🗑️</p>
+                        <p class="text-xl font-bold text-green-700">무단횡단 중 쓰레기를 줍는 아저씨</p>
+                        <p class="text-green-500">(환경을 생각하는 모습)</p>
+                    </div>
+                </div>
+                <div class="text-center mt-6">
+                    <p class="text-2xl font-bold mb-2">이 사람은 좋은 사람일까요, 나쁜 사람일까요?</p>
+                    <p class="text-lg text-gray-600">사람은 한두 가지 행동만으로 '좋다', '나쁘다'라고 단순하게 판단할 수 없는 복잡하고 입체적인 존재입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="principle" class="mb-16 py-12 bg-gradient-to-r from-[#118AB2] to-[#06D6A0] rounded-2xl text-white text-center">
+            <h2 class="text-4xl md:text-6xl font-black text-shadow">"사람을 기준으로 삼지 말자!"</h2>
+            <p class="mt-4 text-xl md:text-2xl text-shadow">우리의 기준은 불완전한 사람이 아닌, 온전하신 하나님이어야 합니다.</p>
+        </section>
+
+        <section id="conclusion" class="mb-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">우리는 어떻게 바라보아야 할까?</h2>
+            <div class="card max-w-4xl mx-auto">
+                 <p class="text-center text-lg mb-8">사람의 한 단면만 보고 섣불리 판단하는 대신, 그의 전체를 이해하고 사랑으로 품어주는 우리가 됩시다.</p>
+                <div class="flex flex-col md:flex-row justify-around gap-8">
+                    <div class="flex-1">
+                        <h4 class="text-xl font-bold text-center text-[#FF6B6B] mb-4">잘못된 시선 ❌</h4>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-gray-100 rounded-lg text-center">단편적인 모습</div>
+                            <div class="text-center text-2xl">⬇️</div>
+                            <div class="p-4 bg-gray-100 rounded-lg text-center">섣부른 판단 (좋은/나쁜 사람)</div>
+                             <div class="text-center text-2xl">⬇️</div>
+                            <div class="p-4 bg-red-100 rounded-lg text-center text-red-700 font-bold">오해와 관계의 단절</div>
+                        </div>
+                    </div>
+                    <div class="border-t-2 md:border-t-0 md:border-l-2 border-dashed border-gray-300 mx-8"></div>
+                     <div class="flex-1">
+                        <h4 class="text-xl font-bold text-center text-[#06D6A0] mb-4">올바른 시선 ✅</h4>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-gray-100 rounded-lg text-center">입체적인 모습</div>
+                            <div class="text-center text-2xl">⬇️</div>
+                            <div class="p-4 bg-gray-100 rounded-lg text-center">이해와 사랑</div>
+                             <div class="text-center text-2xl">⬇️</div>
+                            <div class="p-4 bg-green-100 rounded-lg text-center text-green-700 font-bold">기도와 건강한 관계</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="text-center mt-12 py-4 text-gray-500">
+            <p>이 인포그래픽은 배효열 목사님의 '사사기 기드온' 설교 말씀을 바탕으로 제작되었습니다.</p>
+        </footer>
+
+        <div id="message-box" class="message-box"></div>
+    </div>
+
+<script>
+    function showMessage(message, duration = 3000) {
+        const msgBox = document.getElementById('message-box');
+        msgBox.textContent = message;
+        msgBox.style.display = 'block';
+        setTimeout(() => {
+            msgBox.style.display = 'none';
+        }, duration);
+    }
+
+    function wrapLabels(label, maxLength) {
+        if (typeof label !== 'string' || label.length <= maxLength) {
+            return label;
+        }
+        const words = label.split(' ');
+        const lines = [];
+        let currentLine = '';
+        words.forEach(word => {
+            if ((currentLine + ' ' + word).trim().length > maxLength) {
+                lines.push(currentLine.trim());
+                currentLine = word;
+            } else {
+                currentLine = (currentLine + ' ' + word).trim();
+            }
+        });
+        if (currentLine) {
+            lines.push(currentLine.trim());
+        }
+        return lines;
+    }
+
+    const defaultTooltipCallback = {
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 20
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        return Array.isArray(label) ? label.join(' ') : label;
+                    }
+                }
+            }
+        },
+        maintainAspectRatio: false,
+        scales: {
+            r: {
+                angleLines: {
+                    display: true,
+                    color: 'rgba(0, 0, 0, 0.1)'
+                },
+                suggestedMin: 0,
+                suggestedMax: 10,
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.1)'
+                },
+                pointLabels: {
+                    font: {
+                        size: 13,
+                        weight: 'bold'
+                    },
+                    color: '#073B4C'
+                },
+                ticks: {
+                    display: false,
+                    stepSize: 2
+                }
+            }
+        }
+    };
+
+    const solomonData = {
+        labels: ['지혜', '부', '신앙', '겸손', '말년의 삶'],
+        datasets: [{
+            label: '세상의 평가',
+            data: [10, 9, 8, 7, 3],
+            fill: true,
+            backgroundColor: 'rgba(255, 107, 107, 0.2)',
+            borderColor: '#FF6B6B',
+            pointBackgroundColor: '#FF6B6B',
+        }, {
+            label: '실제 모습',
+            data: [10, 9, 3, 4, 2],
+            fill: true,
+            backgroundColor: 'rgba(17, 138, 178, 0.2)',
+            borderColor: '#118AB2',
+            pointBackgroundColor: '#118AB2',
+        }]
+    };
+    new Chart(document.getElementById('solomonChart'), {
+        type: 'radar',
+        data: solomonData,
+        options: defaultTooltipCallback
+    });
+
+    const danielData = {
+        labels: ['믿음', '영향력', '지혜', '개인의 삶', '가정'],
+        datasets: [{
+            label: '세상의 평가',
+            data: [10, 9, 9, 8, 7],
+            fill: true,
+            backgroundColor: 'rgba(6, 214, 160, 0.2)',
+            borderColor: '#06D6A0',
+            pointBackgroundColor: '#06D6A0',
+        }, {
+            label: '숨겨진 모습',
+            data: [10, 9, 9, 4, 1],
+            fill: true,
+            backgroundColor: 'rgba(255, 209, 102, 0.2)',
+            borderColor: '#FFD166',
+            pointBackgroundColor: '#FFD166',
+        }]
+    };
+    new Chart(document.getElementById('danielChart'), {
+        type: 'radar',
+        data: danielData,
+        options: defaultTooltipCallback
+    });
+
+    const gideonData = {
+        labels: ['용맹', '겸손', '사생활', '자녀 교육', '왕의 야망'],
+        datasets: [{
+            label: '세상의 평가',
+            data: [10, 9, 7, 6, 2],
+            fill: true,
+            backgroundColor: 'rgba(255, 107, 107, 0.2)',
+            borderColor: '#FF6B6B',
+            pointBackgroundColor: '#FF6B6B',
+        }, {
+            label: '실제 모습',
+            data: [9, 3, 2, 2, 9],
+            fill: true,
+            backgroundColor: 'rgba(17, 138, 178, 0.2)',
+            borderColor: '#118AB2',
+            pointBackgroundColor: '#118AB2',
+        }]
+    };
+    new Chart(document.getElementById('gideonChart'), {
+        type: 'radar',
+        data: gideonData,
+        options: defaultTooltipCallback
+    });
+    // html2canvas 및 다운로드 버튼 관련 스크립트가 제거되었습니다.
+</script>
 </body>
 </html>
